@@ -30,8 +30,6 @@ public class TestMybatis {
 //    包装的pojo传递
     @Test
     public void demo1() throws IOException {
-//        Reader reader= Resources.getResourceAsReader("SqlMapConfig.xml");
-//        SqlSessionFactory sqlSessionFactory=new SqlSessionFactoryBuilder().build(reader);
          SqlSession session=sqlSessionFactory.openSession();
          StudentMapper studentMapper=session.getMapper(StudentMapper.class);
         QueryVo vo=new QueryVo();
@@ -46,8 +44,6 @@ public class TestMybatis {
     }
     @Test
     public  void demo2() throws IOException {
-//        Reader reader1= Resources.getResourceAsReader("SqlMapConfig.xml");
-//        SqlSessionFactory sqlSessionFactory=new SqlSessionFactoryBuilder().build(reader1);
         SqlSession session=sqlSessionFactory.openSession();
         StudentMapper studentMapper=session.getMapper(StudentMapper.class);
         Map<String,Object> map=new HashMap<>();
@@ -69,8 +65,6 @@ public class TestMybatis {
 //    模糊查询,任意字段排序,分页显示
     @Test
     public void demo3() throws IOException {
-//        Reader reader1= Resources.getResourceAsReader("SqlMapConfig.xml");
-//        SqlSessionFactory sqlSessionFactory=new SqlSessionFactoryBuilder().build(reader1);
         SqlSession session=sqlSessionFactory.openSession();
         StudentMapper studentMapper=session.getMapper(StudentMapper.class);
         Map<String,Object> map2=new HashMap<>();
