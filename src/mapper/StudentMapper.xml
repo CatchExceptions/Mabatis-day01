@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.StudentMapper">
+    <resultMap id="getmap" type="opjo.Student">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+    </resultMap>
+    <resultMap id="getmap2" type="opjo.Specilinfo">
+        <id property="spilinfoid" column="spilinfoid"/>
+        <result property="depinfoid" column="depinfoid"/>
+        <result property="spilinfocode" column="spilinfocode"/>
+        <result property="spilinfoname" column="spilinfoname"/>
+        <result property="spilinfoaim" column="spilinfoaim"/>
+        <result property="spilinfoprodire" column="spilinfoprodire"/>
+
+    </resultMap>
+    <select id="selectLike" parameterType="opjo.QueryVo" resultType="opjo.Student">
+                select * from human where name  like '%${student.name}%'
+    </select>
+
+    <select id="selectMap" parameterType="java.util.Map" resultMap="getmap">
+                select * from human where ${zdname}  like '%${mohu}%' limit #{starpage} , #{cout}
+    </select>
+    <!--模糊查询,任意字段排序,分页显示-->
+    <select id="selectMap2" parameterType="java.util.Map" resultMap="getmap2">
+                select * from specilinfo   where ${colNameLike} like '%${keyword}%' ORDER BY ${colNameOrder} DESC limit #{start} , #{pageSize}
+    </select>
+
+
+    <select id="selectMap3" parameterType="int" resultType="opjo.Specilinfo">
+                select * from specilinfo   where spilinfoname like '%${keyword}%' ORDER BY spilinfoid DESC limit #{start} , #{pageSize}
+    </select>
+</mapper>
