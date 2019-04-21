@@ -2,8 +2,10 @@ package opjo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Specilinfo {
+public class Specilinfo implements Serializable {
     private int spilinfoid;
     private int depinfoid;
     private int spilinfocode;

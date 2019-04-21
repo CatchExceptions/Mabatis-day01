@@ -17,6 +17,8 @@
         <result property="spilinfoprodire" column="spilinfoprodire"/>
 
     </resultMap>
+<!--开启二级缓存-->
+    <cache/>
     <select id="selectLike" parameterType="opjo.QueryVo" resultType="opjo.Student">
                 select * from human where name  like '%${student.name}%'
     </select>
@@ -24,6 +26,9 @@
     <select id="selectMap" parameterType="java.util.Map" resultMap="getmap">
                 select * from human where ${zdname}  like '%${mohu}%' limit #{starpage} , #{cout}
     </select>
+
+
+
     <!--模糊查询,任意字段排序,分页显示-->
     <select id="selectMap2" parameterType="java.util.Map" resultMap="getmap2">
                 select * from specilinfo   where ${colNameLike} like '%${keyword}%' ORDER BY ${colNameOrder} DESC limit #{start} , #{pageSize}
@@ -33,4 +38,81 @@
     <select id="selectMap3" parameterType="int" resultType="opjo.Specilinfo">
                 select * from specilinfo   where spilinfoname like '%${keyword}%' ORDER BY spilinfoid DESC limit #{start} , #{pageSize}
     </select>
+
+    <select id="selectbysql" parameterType="string" resultType="opjo.Specilinfo">
+                select * from specilinfo
+                <if test="spilinfoname != null and spilinfoname != ''">
+                       where  spilinfoname like '%${spilinfoname}%'
+                </if>
+
+    </select>
+    <select id="selectbyid" parameterType="int" resultType="opjo.Specilinfo">
+        select * from specilinfo where spilinfoid =#{id}
+    </select>
+
+    <!--动态sql所有查询方法-->
+    <select id="selectbigList" parameterType="java.util.Map" resultMap="getmap2">
+        select * from  specilinfo
+        <where>
+            <choose>
+                <!--模糊查询-->
+                <when test="keyword !=null and keyword !=''and pageNum ==null and pageNum =='' and pageSize ==null and pageSize == ''">
+                    spilinfoname like '%${keyword}%'
+                </when>
+                <!--id查询-->
+                <when test="spilinfoid !=null and spilinfoid !=''">
+                    spilinfoid =#{spilinfoid}
+                </when>
+                <!--模糊分页-->
+                <when test="keyword !=null and keyword !='' and pageNum !=null and pageNum !='' and pageSize !=null and pageSize != ''">
+                    spilinfoname like '%${keyword}%' limit #{start} , #{pageSize}
+                </when>
+                <!--模糊查询,任意字段排序,分页显示-->
+                <when test="colNameOrder !=null and colNameOrder !='' and keyword !=null and keyword !=''and colNameLike!=null and colNameLike !=''">
+                    select * from specilinfo   where ${colNameLike} like '%${keyword}%' ORDER BY ${colNameOrder} DESC limit #{start} , #{pageSize}
+                </when>
+            </choose>
+        </where>
+        <!--分页查询-->
+        <if test="pageNum !=null  and pageSize !=null ">
+               limit #{start} , #{pageSize}
+        </if>
+    </select>
+
+
+
+    <!--批量增加-->
+    <insert id="doubleinsert" parameterType="java.util.List">
+        insert into human
+        (name,age)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+        ( #{item.name},
+         #{item.age})
+        </foreach>
+    </insert>
+
+    <!--批量删除-->
+    <delete id="doubledelete" parameterType="java.util.List">
+        delete from human where id
+        in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+
+         #{item.id}
+
+        </foreach>
+    </delete>
+
+<!--批量修改-->
+    <update id="doubleupdata" parameterType="java.util.List">
+        update human
+        <set>
+                name =#{item.name},
+                age =#{item.age}
+        </set>
+        where id in
+         <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+            #{item.id}
+         </foreach>
+    </update>
 </mapper>

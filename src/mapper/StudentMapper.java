@@ -14,4 +14,14 @@ public interface StudentMapper {
     public List<Student> selectMap(Map<String,Object> map);
     public List<Specilinfo> selectMap2(Map<String,Object> map);
     public List<Specilinfo> selectMap3(@Param(value = "keyword")String keyword,@Param(value = "pageNum" )int pageNum,@Param(value = "pageSize")int pageSize,@Param(value = "start")int start);
+    public List<Specilinfo> selectbysql(@Param("spilinfoname") String spilinfoname);
+    public List<Specilinfo> selectbyid(int i);
+//    所有查询
+public List<Specilinfo> selectbigList(Map<String,Object> map);
+//批量增加
+    public  int doubleinsert(List<Student> list);
+//批量删除
+    public  int doubledelete(List<Student> list);
+//    批量修改
+    public int  doubleupdata(List<Student> list);
 }

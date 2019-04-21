@@ -13,7 +13,7 @@ public class MyBatisUtils {
 
     static {// static块-------只做一次
         try {
-            Reader reader = Resources.getResourceAsReader("mybatis-config.xml");
+            Reader reader = Resources.getResourceAsReader("SqlMapConfig.xml");
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
         } catch (IOException e) {
             e.printStackTrace();
